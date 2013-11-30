@@ -1,8 +1,14 @@
 
 var user = require('../dao/user');
-var activity = require("../dao/activity");
-var organization = require("../dao/organization");
 var auth = require('../dao/auth');
+var relation = require('../dao/relation');
+
+var activity = require("../dao/activity");
+var action = require('../dao/action');
+var comment = require("../dao/comment");
+var message = require('../dao/message');
+
+
 var params = require('express-params')
 
 
@@ -21,40 +27,6 @@ exports.map = function(app){
 
 	app.all('*', auth.requireAuthentication);
 	// app.get('/test/:act', routes.act); 
-
-	//=================== organization ===============
-
-
-
-	//获取结构列表
-	app.get('/organizations/:page', organization.list); 
-
-	//获取单个机构
-	app.get('/organizations/:oid', organization.detail); 
-
-	//获取附近的机构列表
-	app.get('/organizations/nearby/:latitude,:longitude/:page', organization.nearby);
-
-	//根据城市获取机构列表
-	app.get('/organizations/city/:city/:page', organization.city);
-
-	//根据城市/分类获取机构列表
-	app.get('/organizations/:city/:category/:page', organization.category);
-
-	//搜索机构列表
-	app.get('/organizations/search/:page', organization.search);
-
-
-    //获取某个机构下的活动列表
-
-    app.get('/organizations/:oid/activities/:page', organization.activities);
-
-
-	//关注 取消关注 action 在params 等
-	app.put('/organizations/:oid/relation', organization.relation);
-
-	//获取机构的关注者列表
-	app.get('/organizations/:oid/fans/:page', organization.fans);
 
 
 	//===============  activity ===================
@@ -101,21 +73,16 @@ exports.map = function(app){
 
 
 	//关注/取消/移除粉丝  action 在params中
-	app.put('/users/:uid/relation', user.relation);
+	app.put('/users/:uid/relation', relation.update);
 
 	//获取用户的关注列表
-	app.get('/users:uid/followers/:page', user.follows);
+	app.get('/users:uid/followers/:page', relation.follows);
 
 	//获取用户的粉丝列表
-	app.get('/users:uid/fans/:page', user.fans);
-
-	//获取用户关注的机构列表
-	app.get('/users/:uid/organizations/:page', user.organizations);
+	app.get('/users:uid/fans/:page', relation.fans);
 
 	//获取用户关注的活动列表
 	app.get('/users/:uid/activities/:page', user.activities);
-
-	// app.all('*', auth.notfound);
 
 
 }
