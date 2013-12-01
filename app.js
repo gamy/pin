@@ -23,14 +23,26 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 
+//app.use(express.bodyParser());
+
+//app.use(express.cookieParser());
+//app.use(express.cookieParser('gamy123'));
+//app.use(express.cookieSession({secret:'gamy1111'}));
+
+
+var RedisStore = require('connect-redis')(express);
 app.use(express.cookieParser());
-app.use(express.cookieParser('gamy123'));
-app.use(express.cookieSession({secret:'gamy1111'}));
+app.use(express.session({
+    store: new RedisStore({
+        host: 'localhost'
+    }),
+    secret: 'hello'
+}));
+
 
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use(auth.requireAuthentication);
 
 
 // development only

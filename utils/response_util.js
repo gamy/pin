@@ -1,24 +1,23 @@
-
-exports.genJSON = function(error, data){
-    var result = {};
-    if(error){
-        result.code = error.code;
-        result.msg = error.message;
-    }else{
-        result.code = 0;
-        result.data = data;
-    }
+exports.genJSON = function (data) {
+    var result = {code: 0, data: data};
+    result.code = 0;
+    result.data = data;
     return result;
 }
 
 var errorForCode = require('./error').errorForCode;
 
-exports.genErrorJSON = function(errorCode){
-	var error = errorForCode(errorCode);
+exports.genErrorJSON = function (errorCode) {
+    var message = errorForCode(errorCode);
     var result = {};
-    result.code = error.code;
-    result.msg = error.message;
+    result.code = errorCode;
+    result.msg = message;
+    console.info('genErrorJSON: ' + 'code = ' + errorCode + ', msg =' + message);
     return result;
 }
 
+exports.genSuccessJSON = function () {
+    var result = {code: 0};
+    return result;
+}
 

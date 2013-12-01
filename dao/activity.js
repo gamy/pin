@@ -1,6 +1,7 @@
 
-var organizationCollection = require('../settings/mongo_config').organizationCollection;
 var activityCollection = require('../settings/mongo_config').activityCollection;
+var commentCollection = require('../settings/mongo_config').commentCollection;
+
 var constant = require('./constant');
 
 
@@ -52,5 +53,11 @@ exports.relation = function(req, res){
 
 //获取活动的关注列表
 exports.fans = function(req, res){
+
+}
+
+
+//获取活动的评论列表
+exports.comments = function(req, res){
 
 }

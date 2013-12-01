@@ -18,15 +18,19 @@ exports.map = function(app){
 
 	app.param('latitude', Number);
 	app.param('longitude', Number);
-	app.param('category', Number);
+
+    //TODO should be changed.
+
+	app.param('category', /\w+/);
 	app.param('page', Number);
 
     app.param('uid', /[a-z0-9]{24}/);
     app.param('oid', /[a-z0-9]{24}/);
     app.param('aid', /[a-z0-9]{24}/);
 
-	app.all('*', auth.requireAuthentication);
-	// app.get('/test/:act', routes.act); 
+//	app.post('*', auth.requireAuthentication);
+    app.put('*', auth.requireAuthentication);
+    app.delete('*', auth.requireAuthentication);
 
 
 	//===============  activity ===================
@@ -55,11 +59,18 @@ exports.map = function(app){
 	//获取活动的关注列表
 	app.get('/activities/:aid/fans/:page', activity.fans);
 
+    //获取活动的评论
+    app.get('/activities/:aid/comments/:page', activity.comments);
 
-	//================== Auth ====================
+
+
+    //================== Auth ====================
+
 	app.post('/auth/signup', auth.signup); 
 	app.post('/auth/signin', auth.signin);
-	app.post('/auth/logout', auth.logout); 
+
+    app.get('/auth/logout', auth.requireAuthentication);
+	app.get('/auth/logout', auth.logout);
 
 	//================== User ====================
 

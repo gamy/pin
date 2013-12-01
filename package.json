@@ -9,6 +9,7 @@
     "express": "3.4.4",
     "ejs": "*",
     "mongoskin" : ">= 0.6.0",
-    "express-params" : ">= 0.0.3"
+    "express-params" : ">= 0.0.3",
+    "connect-redis": ">= 1.4.0"
   }
 }

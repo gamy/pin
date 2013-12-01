@@ -23,7 +23,7 @@ exports.handleListQuery = function (req, res, collection, filter, sort, eraseFie
                     }
                 }
             }
-            var response = jsonutil.genJSON(null, items);
+            var response = jsonutil.genJSON(items);
         }
         res.send(response);
     });
@@ -43,7 +43,7 @@ exports.handleIDQuery = function (req, res, collection, oid, eraseFields) {
                     item[field] = undefined;
                 }
             }
-            var response = jsonutil.genJSON(null, item);
+            var response = jsonutil.genJSON(item);
         }
         res.send(response);
     });
