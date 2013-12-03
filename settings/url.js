@@ -29,17 +29,17 @@ exports.map = function(app){
     app.param('aid', /[a-z0-9]{24}/);
 
 //	app.post('*', auth.requireAuthentication);
-    app.put('*', auth.requireAuthentication);
-    app.delete('*', auth.requireAuthentication);
+//    app.put('*', auth.requireAuthentication);
+//    app.delete('*', auth.requireAuthentication);
 
 
 	//===============  activity ===================
 
 	//获取关注的机构的最新活动列表
-	app.get('/activities/timeline/:page', activity.timeline); 
+	app.get('/activities/timeline/:page', activity.timeline);
 
 	//获取单个活动
-	app.get('/activities/:aid', activity.detail); 
+	app.get('/activities/:aid', activity.detail);
 
 	//获取附近的活动列表
 	app.get('/activities/nearby/:latitude,:longitude/:page', activity.nearby);
@@ -66,7 +66,7 @@ exports.map = function(app){
 
     //================== Auth ====================
 
-	app.post('/auth/signup', auth.signup); 
+	app.post('/auth/signup', auth.signup);
 	app.post('/auth/signin', auth.signin);
 
     app.get('/auth/logout', auth.requireAuthentication);
@@ -78,7 +78,7 @@ exports.map = function(app){
 	app.get('/users/:uid', user.detail);
 
 	//更新用户 信息在body中
-	app.put('/users/:uid/', user.update);
+	app.put('/users/:uid', user.update);
 
 	//================== Relation =================
 

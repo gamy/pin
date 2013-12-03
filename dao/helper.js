@@ -7,3 +7,7 @@ exports.genJSON = resUtil.genJSON;
 exports.genErrorJSON = resUtil.genErrorJSON;
 exports.successJSON = resUtil.genSuccessJSON();
 exports.ObjectID = require('mongoskin').ObjectID
+
+
+exports.handleListQuery = require('../utils/mongoutil').handleListQuery;
+exports.handleIDQuery = require('../utils/mongoutil').handleIDQuery;
