@@ -1,11 +1,17 @@
-var resUtil = require('../utils/response_util');
+var resUtil = require('../utils/resutil');
+var reqUtil = require('../utils/requtil');
 
+exports.dataUtil = require('../utils/datautil');
 exports.collections = require('../settings/mongo_config');
-
 exports.ErrorCode = require('../utils/error').ErrorCode;
+
+
+exports.parseBody = reqUtil.parseBody;
 exports.genJSON = resUtil.genJSON;
 exports.genErrorJSON = resUtil.genErrorJSON;
 exports.successJSON = resUtil.genSuccessJSON();
+
+
 exports.ObjectID = require('mongoskin').ObjectID
 
 

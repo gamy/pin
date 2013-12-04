@@ -1,10 +1,12 @@
-var jsonutil = require('./response_util');
+var jsonUtil = require('./resutil');
 var errorForCode = require('./error').errorForCode;
 var ErrorCode = require('./error').ErrorCode;
 var constant = require('../dao/constant');
 var pageCount = constant.PAGE_COUNT;
 
+var dataUtil = require('./datautil');
 
+/*
 exports.handleListQuery = function (req, res, collection, filter, sort, eraseFields) {
     var skip = pageCount * req.params.page;
 
@@ -23,28 +25,44 @@ exports.handleListQuery = function (req, res, collection, filter, sort, eraseFie
                     }
                 }
             }
-            var response = jsonutil.genJSON(items);
+            var response = jsonUtil.genJSON(items);
         }
         res.send(response);
     });
 }
+*/
 
-exports.handleIDQuery = function (req, res, collection, oid, eraseFields) {
-    oid = oid.toString();
-    console.log('<handleIDQuery> oid = ' + oid);
+
+/**
+ *
+ * @param collection
+ * @param oid
+ * @param eraseFields
+ * @param callback (err, item)
+ */
+exports.handleIDQuery = function (collection, oid, eraseFields, callback) {
     collection.findById(oid, function (err, item) {
         if (err) {
             console.error('<handleListQuery> error = ' + err);
-            var response = genErrorJSON(errorForCode(ErrorCode.SystemError));
+            callback(err, null);
         } else {
-            if (eraseFields) {
-                for (var i = 0; i < eraseFields.length; i++) {
-                    var field = eraseFields[i];
-                    item[field] = undefined;
-                }
-            }
-            var response = jsonutil.genJSON(item);
+            dataUtil.enumList(eraseFields, function(value){
+                item[value] = undefined;
+            });
+            callback(err, item);
         }
-        res.send(response);
     });
+}
+
+
+/**
+ *
+ * @param collection
+ * @param idList string list
+ * @param callback pass(err, items)
+ */
+
+
+exports.handleIDListQuery = function (collection, idList, callback){
+    collection.find({_id:{$in:idList}}).sort({_id:-1}).toArray(callback);
 }

@@ -18,6 +18,7 @@ var codeDict = {
 
 exports.ErrorCode = codeDict;
 
+
 exports.errorForCode = function(code){
 	switch(code){
 		case codeDict.ErrorAPI:
@@ -30,7 +31,7 @@ exports.errorForCode = function(code){
 	    	return '密码错误';
         case codeDict.NameExits:
             return '用户名被注册了';
-        case UpdateUserError:
+        case codeDict.UpdateUserError:
             return '更新用户发生错误';
 	    default:
 	    	return '未知错误';
