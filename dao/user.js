@@ -10,7 +10,7 @@ exports.detail = function (req, res) {
     var uid = req.params.uid;
     console.log('get user detail, uid = ' + uid.toString());
     helper.handleIDQuery(userCollection, uid.toString(), eraseFields, function(err, item){
-        var code = (err ? helper.ErrorCode.SystemError : null);
+        var code = (err ? helper.ErrorCode.SystemError : 0);
         var response = helper.genJSON(item, code);
         res.send(response);
     });
@@ -24,12 +24,9 @@ exports.update = function (req, res) {
     var uid = req.params.uid.toString();
     var update = helper.parseBody(req.body, updateUserAttributes);
     userCollection.updateById(uid, {$set: update}, function (err) {
-        if (err) {
-            var result = helper.genErrorJSON(helper.ErrorCode.UpdateUserError);
-            res.send(result);
-        } else {
-            res.send(helper.successJSON);
-        }
+        var code = err ? helper.ErrorCode.UpdateUserError : 0;
+        var response = helper.genJSON(null, code);
+        res.send(response);
     });
 }
 
