@@ -22,3 +22,17 @@ exports.commentCollection = db.collection('comment');
 
 //user action
 exports.actionCollection = db.collection('action');
+
+
+//user timeline
+exports.timelineCollection = db.collection('timeline');
+
+//user activity
+exports.userActivityCollection = db.collection('user_activity');
+
+//user activity
+exports.userFollowerCollection = db.collection('user_follower');
+
+//user fans
+exports.userFanCollection = db.collection('user_fan');
+

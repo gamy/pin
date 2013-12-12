@@ -17,3 +17,7 @@ exports.ObjectID = require('mongoskin').ObjectID
 
 exports.handleListQuery = require('../utils/mongoutil').handleListQuery;
 exports.handleIDQuery = require('../utils/mongoutil').handleIDQuery;
+
+exports.pushItemToIndex = require('../utils/mongoutil').pushItemToIndex;
+exports.findIdListFromIndex = require('../utils/mongoutil').findIdListFromIndex;
+exports.queryObjectListWithRange = require('../utils/mongoutil').queryObjectListWithRange

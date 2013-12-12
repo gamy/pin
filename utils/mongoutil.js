@@ -6,33 +6,6 @@ var pageCount = constant.PAGE_COUNT;
 
 var dataUtil = require('./datautil');
 
-/*
-exports.handleListQuery = function (req, res, collection, filter, sort, eraseFields) {
-    var skip = pageCount * req.params.page;
-
-    collection.find(filter).sort(sort).skip(skip).limit(pageCount).toArray(function (err, items) {
-        if (err) {
-            console.error('<handleListQuery> error = ' + err);
-            var response = genErrorJSON(errorForCode(ErrorCode.SystemError));
-        } else {
-
-            if (eraseFields) {
-                for (var i = 0; i < items.length; i++) {
-                    var item = items[i];
-                    for (var i = 0; i < eraseFields.length; i++) {
-                        var field = eraseFields[i];
-                        item[field] = undefined;
-                    }
-                }
-            }
-            var response = jsonUtil.genJSON(items);
-        }
-        res.send(response);
-    });
-}
-*/
-
-
 /**
  *
  * @param collection
@@ -46,7 +19,7 @@ exports.handleIDQuery = function (collection, oid, eraseFields, callback) {
             console.error('<handleListQuery> error = ' + err);
             callback(err, null);
         } else {
-            dataUtil.enumList(eraseFields, function(value){
+            dataUtil.enumList(eraseFields, function (value) {
                 item[value] = undefined;
             });
             callback(err, item);
@@ -62,7 +35,57 @@ exports.handleIDQuery = function (collection, oid, eraseFields, callback) {
  * @param callback pass(err, items)
  */
 
-
-exports.handleIDListQuery = function (collection, idList, callback){
-    collection.find({_id:{$in:idList}}).sort({_id:-1}).toArray(callback);
+var handleIDListQuery = function (collection, idList, callback) {
+    collection.find({_id: {$in: idList}}).sort({_id: -1}).toArray(callback);
 }
+
+
+exports.handleIDListQuery = handleIDListQuery;
+
+exports.queryObjectListWithRange = function (idCollection, id, idListField, callback) {
+    idCollection.findById(id, {idListField: 1}, function (err, item) {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(err, item[idListField]);
+        }
+    });
+}
+
+exports.pushItemToIndex = function (collection, targetList, value) {
+    console.info('<pushItem> targetList count = ' + targetList.length + ', value = ' + value.toString());
+    if (targetList) {
+        for (var i = 0; i < targetList.length; ++i) {
+            var doc = {$push: {id_list: value}, $inc: {total: 1, unread:1}};
+            collection.update({'owner': targetList[i]}, doc, {upsert: true, multi: false});
+        }
+    }
+}
+
+exports.findIdListFromIndex = function (collection, owner, callback) {
+    collection.findById(owner.toString(), function (err, item) {
+        if (err) {
+            callback(err, null);
+        } else {
+            if (item && !item.id_list) {
+                callback(null, item.id_list);
+            } else {
+                callback(null, new Array());
+            }
+
+        }
+    })
+}
+
+exports.queryObjectListWithRange = function (query, skip, limit, idCollection, idListField, objCollection, callback) {
+    var slice = {idListField: {$slice: [skip, limit]}};
+    idCollection.findOne(query, slice, function (err, item) {
+        if (err) {
+            callback(err, null);
+        }
+        var idList = item[idListField];
+        handleIDListQuery(objCollection, idList, callback);
+    });
+}
+
+

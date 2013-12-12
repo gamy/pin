@@ -4,6 +4,7 @@ var genErrorJSON = function (errorCode) {
     var message = errorForCode(errorCode);
     var result = {message:message, code: errorCode};
     return result;
+//    return JSON.stringify(result);
 }
 
 exports.genErrorJSON = genErrorJSON;
@@ -17,6 +18,7 @@ exports.genJSON = function (data, code) {
             result.data = data;
         }
         return result;
+//        return JSON.stringify(result);
     }
 }
 

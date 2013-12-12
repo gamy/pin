@@ -12,7 +12,8 @@ var codeDict = {
 	SystemError : 10002,
 	PasswordWrong : 10003,
     NameExits: 10004,
-    UpdateUserError : 10005
+    UpdateUserError : 10005,
+    PermissionDenied : 10006
 }
 
 
@@ -33,6 +34,8 @@ exports.errorForCode = function(code){
             return '用户名被注册了';
         case codeDict.UpdateUserError:
             return '更新用户发生错误';
+        case codeDict.PermissionDenied:
+            return '权限不足';
 	    default:
 	    	return '未知错误';
 	}
