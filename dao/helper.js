@@ -1,5 +1,7 @@
 var resUtil = require('../utils/resutil');
 var reqUtil = require('../utils/requtil');
+var mongoutil = require('../utils/mongoutil');
+
 
 exports.dataUtil = require('../utils/datautil');
 exports.collections = require('../settings/mongo_config');
@@ -15,9 +17,16 @@ exports.successJSON = resUtil.genSuccessJSON();
 exports.ObjectID = require('mongoskin').ObjectID
 
 
-exports.handleListQuery = require('../utils/mongoutil').handleListQuery;
-exports.handleIDQuery = require('../utils/mongoutil').handleIDQuery;
+exports.handleIDQuery = mongoutil.handleIDQuery;
+exports.pushItemToIndex = mongoutil.pushItemToIndex;
+exports.removeItemFromIndex = mongoutil.removeItemFromIndex;
+exports.findAllIdListFromIndex = mongoutil.findAllIdListFromIndex;
+exports.queryObjectListWithRange = mongoutil.queryObjectListWithRange;
+exports.queryObjectListFromIndexWithPage = mongoutil.queryObjectListFromIndexWithPage;
 
-exports.pushItemToIndex = require('../utils/mongoutil').pushItemToIndex;
-exports.findIdListFromIndex = require('../utils/mongoutil').findIdListFromIndex;
-exports.queryObjectListWithRange = require('../utils/mongoutil').queryObjectListWithRange
+
+var pageCount = 20;
+exports.pageCount = pageCount;
+exports.skip = function (page) {
+    return pageCount * page;
+}

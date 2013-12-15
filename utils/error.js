@@ -13,7 +13,10 @@ var codeDict = {
 	PasswordWrong : 10003,
     NameExits: 10004,
     UpdateUserError : 10005,
-    PermissionDenied : 10006
+    PermissionDenied : 10006,
+    ActivityDeleted : 10007,
+    UpdateRelationWithSelf : 10008,
+    ParameterError:10009
 }
 
 
@@ -36,6 +39,12 @@ exports.errorForCode = function(code){
             return '更新用户发生错误';
         case codeDict.PermissionDenied:
             return '权限不足';
+        case codeDict.ActivityDeleted:
+            return '活动不存在或被删除';
+        case codeDict.UpdateRelationWithSelf:
+            return '不能关注自己'
+        case codeDict.ParameterError:
+            return '参数错误';
 	    default:
 	    	return '未知错误';
 	}

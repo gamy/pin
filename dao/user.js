@@ -1,8 +1,8 @@
 var helper = require('./helper');
 var userCollection = helper.collections.userCollection;
-
-
-
+var userActivityCollection = helper.collections.userActivityCollection;
+var activityCollection = helper.collections.activityCollection;
+var followedActivityCollection = require('../settings/mongo_config').followedActivityCollection;
 var eraseFields = ['password'];
 
 //获取用户详细信息                                                                                                
@@ -31,7 +31,39 @@ exports.update = function (req, res) {
 }
 
 
-//获取用户关注的活动列表
-exports.activities = function (req, res) {
 
+
+//check!!
+//获取用户发布的活动列表
+
+exports.activities = function (req, res) {
+    var owner = req.params.uid.toString();
+    var page = parseInt(req.params.page);
+
+    helper.queryObjectListFromIndexWithPage(owner, page, userActivityCollection, activityCollection, function (err, items, hasMoreData) {
+        if (err) {
+            var result = helper.genErrorJSON(helper.ErrorCode.SystemError);
+            res.send(result);
+        } else {
+            var result = helper.genJSON(items);
+            result.hasMoreData = hasMoreData;
+            res.send(result);
+        }
+    });
 }
+
+exports.followedActivities = function (req, res) {
+                      var owner = req.params.uid.toString();
+                      var page = parseInt(req.params.page);
+
+                      helper.queryObjectListFromIndexWithPage(owner, page, followedActivityCollection, activityCollection, function (err, items, hasMoreData) {
+                          if (err) {
+                              var result = helper.genErrorJSON(helper.ErrorCode.SystemError);
+                              res.send(result);
+                          } else {
+                              var result = helper.genJSON(items);
+                              result.hasMoreData = hasMoreData;
+                              res.send(result);
+                          }
+                      });
+                  }

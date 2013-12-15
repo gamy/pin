@@ -30,7 +30,13 @@ exports.timelineCollection = db.collection('timeline');
 //user activity
 exports.userActivityCollection = db.collection('user_activity');
 
-//user activity
+//followed activity
+exports.followedActivityCollection = db.collection('followed_activity');
+
+//activity fans
+exports.activityFansCollection = db.collection('activity_fans');
+
+//user followers
 exports.userFollowerCollection = db.collection('user_follower');
 
 //user fans

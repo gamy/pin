@@ -99,11 +99,14 @@ exports.logout = function (req, res) {
 
 
 exports.requireAuthentication = function (req, res, next) {
+    console.info('<requireAuthentication>');
     if(req.session.uid){
         console.info('<requireAuthentication> pass! name = ' + req.session.name);
         next();
     }else{
+        console.info('<requireAuthentication> fail! going to destroy the session');
+        req.session.destroy();
         res.send(helper.genErrorJSON(helper.ErrorCode.NotSignUp));
-        console.info('<requireAuthentication> fail!');
+//        console.info('<requireAuthentication> fail!');
     }
 }

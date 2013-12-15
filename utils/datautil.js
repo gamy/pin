@@ -45,6 +45,29 @@ var hasElement = function (list, element) {
 }
 
 
+var deleteAttibutesInObject = function (obj, attributes) {
+    if (obj) {
+        for (var i = 0; i < attributes.length; ++i) {
+            var attr = attributes[i];
+            if (obj[attr]) {
+                delete obj[attr];
+            }
+        }
+    }
+}
+
+var deleteAttributesForObjectList = function (objList, attributes){
+    if(objList){
+        for(var i = 0; i < objList.length; ++ i){
+            var obj = objList[i];
+            deleteAttibutesInObject(obj, attributes);
+        }
+    }
+}
+
+exports.deleteAttibutesInObject = deleteAttibutesInObject;
+exports.deleteAttributesForObjectList = deleteAttributesForObjectList;
+
 exports.hasElement = hasElement;
 exports.enumList = enumList;
 exports.enumKV = enumKV;
